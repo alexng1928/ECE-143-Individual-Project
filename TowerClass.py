@@ -30,35 +30,28 @@ class Tower:
         assert isinstance(other,Tower), "Tower not being compared to another Tower"
         return self.start_coord == other.start_coord and self.height == other.height and self.width == other.width
 
-    def __ne__(self, other):
-        """Returns true if the tower's coverage intersects with another's coverage, otherwise returns false
-        """
-        assert isinstance(other,Tower), "Tower not being compared to another Tower"
-        if ((self.start_coord[0]+self.width) <= other.start_coord[0]) or \
-            (self.start_coord[0] >= (other.start_coord[0]+other.width)) or \
-            (self.start_coord[1] >= (other.start_coord[1]+other.height)) or \
-            ((self.start_coord[1]+self.height) <= other.start_coord[1]):
-            return False
-        return True
-
     def __lt__(self,other):
         """Returns true if there is coverage to the left of other's coverage
         """
+        assert isinstance(other,Tower), "Tower not being compared to another Tower"
         return self.start_coord[0] < other.start_coord[0]
 
     def __gt__(self,other):
         """Returns true if there is coverage to the right of other's coverage
         """
+        assert isinstance(other,Tower), "Tower not being compared to another Tower"
         return self.right > other.right
 
     def __le__(self,other):
         """Returns true if there is coverage below other's coverage
         """
+        assert isinstance(other,Tower), "Tower not being compared to another Tower"
         return self.start_coord[1] < other.start_coord[1]
 
     def __ge__(self,other):
         """Returns true if there is coverage above other's coverage
         """
+        assert isinstance(other,Tower), "Tower not being compared to another Tower"
         return self.top > other.top
 
     @property
@@ -79,3 +72,14 @@ class Tower:
         """Returns the "coordinate" of the top most edge of the rectangle
         """
         return self.start_coord[1] + self.height
+
+    def intersects(self,other):
+        """Returns true if the tower's coverage intersects with another's coverage, otherwise returns false
+        """
+        assert isinstance(other,Tower), "Tower not being compared to another Tower"
+        if ((self.start_coord[0]+self.width) <= other.start_coord[0]) or \
+            (self.start_coord[0] >= (other.start_coord[0]+other.width)) or \
+            (self.start_coord[1] >= (other.start_coord[1]+other.height)) or \
+            ((self.start_coord[1]+self.height) <= other.start_coord[1]):
+            return False
+        return True
