@@ -36,15 +36,23 @@ class Tower:
         return True
 
     def __lt__(self,other):
+        """Returns true if there is coverage to the left of other's coverage
+        """
         return self.start_coord[0] < other.start_coord[0]
 
     def __gt__(self,other):
+        """Returns true if there is coverage to the right of other's coverage
+        """
         return self.right > other.right
 
     def __le__(self,other):
+        """Returns true if there is coverage below other's coverage
+        """
         return self.start_coord[1] < other.start_coord[1]
 
     def __ge__(self,other):
+        """Returns true if there is coverage above other's coverage
+        """
         return self.top > other.top
 
     @property
