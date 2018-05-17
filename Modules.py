@@ -1,12 +1,14 @@
 import random as rnd
 from TowerClass import Tower
 
-def create_rand_tower(desired_height, desired_width):
+# Modules for the tower placing problem
+
+def create_rand_tower(desired_width, desired_height):
     """Returns a new random tower with coordinates within the desired coverage area
 
     Arguments:
-        desired_height {int} -- Height of the desired coverage footprint
         desired_width {int} -- Width of the desired coverage footprint
+        desired_height {int} -- Height of the desired coverage footprint
     """
     assert isinstance(desired_height,int), "Coverage area height is not an int"
     assert isinstance(desired_width,int), "Coverage area width is not an int"
@@ -56,18 +58,18 @@ def trim(new_tower, placed):
     assert isinstance(placed, Tower), "Already placed tower is not a Tower"
 
     # check if the towers intersect
-    if new_tower == placed: # true if intersects
+    if new_tower != placed: # true if intersects
         temp = []
         if new_tower < placed: # x-axis
-            temp.append(Tower(new_tower.start_coord, new_tower.height, placed.start_coord[0]-new_tower.start_coord[0]))
+            temp.append(Tower(new_tower.start_coord, placed.start_coord[0]-new_tower.start_coord[0], new_tower.height))
         if new_tower > placed: # x-axis
             new_coord = (placed.right, new_tower.start_coord[1])
-            temp.append(Tower(new_coord, new_tower.height, new_tower.right-placed.right))
+            temp.append(Tower(new_coord, new_tower.right-placed.right, new_tower.height))
         if new_tower <= placed: # y-axis
-            temp.append(Tower(new_tower.start_coord, placed.start_coord[1]-new_tower.start_coord[1], new_tower.width))
+            temp.append(Tower(new_tower.start_coord, new_tower.width, placed.start_coord[1]-new_tower.start_coord[1]))
         if new_tower >= placed:# y-axis
             new_coord = (new_tower.start_coord[0], placed.top)
-            temp.append(Tower(new_coord, new_tower.top-placed.top, new_tower.width))
+            temp.append(Tower(new_coord, new_tower.width, new_tower.top-placed.top))
         return temp
     else:
         return [new_tower]

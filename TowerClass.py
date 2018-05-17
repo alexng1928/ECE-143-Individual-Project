@@ -2,13 +2,13 @@ class Tower:
     """ Tower Object
     """
 
-    def __init__(self, start_coord, height, width):
+    def __init__(self, start_coord, width, height):
         """Initialization of the Tower Object
 
         Arguments:
             start_coord {tuple} -- bottom left hand corner of the tower's coverage (x,y)
-            height {int} -- height of the tower's coverage (y-axis)
             width {int} -- width of the tower's coverage (x-axis)
+            height {int} -- height of the tower's coverage (y-axis)
         """
         assert isinstance(start_coord,tuple) and len(start_coord) == 2, "Starting Coordinate has incorrect structure"
         assert start_coord[0] >= 0 and start_coord[1] >= 0, "Starting Coordinates must both be >= 0"
@@ -22,9 +22,15 @@ class Tower:
     def __repr__(self):
         """Representation of the Tower Object
         """
-        return "Starting Coord:%s, Height :%s, Width:%s" % (self.start_coord, self.height, self.width)
+        return "Starting Coord:%s, Width :%s, Height:%s" % (self.start_coord, self.width, self.height)
 
     def __eq__(self, other):
+        """Returns true if the starting coordinate, height, and width are the same
+        """
+        assert isinstance(other,Tower), "Tower not being compared to another Tower"
+        return self.start_coord == other.start_coord and self.height == other.height and self.width == other.width
+
+    def __ne__(self, other):
         """Returns true if the tower's coverage intersects with another's coverage, otherwise returns false
         """
         assert isinstance(other,Tower), "Tower not being compared to another Tower"
