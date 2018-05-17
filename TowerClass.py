@@ -22,7 +22,7 @@ class Tower:
     def __repr__(self):
         """Representation of the Tower Object
         """
-        print "Starting Coord:%s, Height:%s, Width:%s" % (self.start_coord, self.height, self.width)
+        return "Starting Coord:%s, Width :%s, Height:%s" % (self.start_coord, self.width, self.height)
 
     @property
     def area(self):
