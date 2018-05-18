@@ -3,7 +3,7 @@ from TowerClass import Tower
 from Modules import create_rand_tower, create_max
 
 # Modules specifically for the Jupyter Notebook documentation and visualization
-def coverage(desired_width, desired_height, num_towers, replace = False):
+def coverage(desired_width, desired_height, num_towers, replace = True):
     placed = []
     original = []
     new_tower = create_rand_tower(desired_width, desired_height)
@@ -21,6 +21,7 @@ def coverage(desired_width, desired_height, num_towers, replace = False):
                 placed.append(trim_tower)
                 count += 1
 
+    # Below is unused in actual jupyter notebook writeup
     else:
         for _ in range(1,num_towers):
             new_tower = create_rand_tower(desired_width, desired_height)
@@ -28,6 +29,12 @@ def coverage(desired_width, desired_height, num_towers, replace = False):
             trim_tower = create_max(new_tower, placed)
             placed.append(trim_tower)
     return [placed, original]
+
+def string_gaps(desired_width, desired_height, tower_list):
+    if coverage_area(tower_list) != desired_width*desired_height:
+        return "There are gaps in the coverage"
+    else:
+        return "There are no gaps in the coverage"
 
 def coverage_area(tower_list):
     total_area = 0
