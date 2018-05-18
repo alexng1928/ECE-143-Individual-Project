@@ -4,7 +4,8 @@ from TowerClass import Tower
 # Modules for the tower placing problem
 
 def create_rand_tower(desired_width, desired_height):
-    """Returns a new random tower with coordinates within the desired coverage area
+    """Returns a new random tower with a random uniformly distributed coverage area inside the desired coverage area
+    defined by the desired width and desired height of the region of interest
 
     Arguments:
         desired_width {int} -- Width of the desired coverage footprint
@@ -22,12 +23,12 @@ def create_rand_tower(desired_width, desired_height):
     return Tower(start_coord, width, height)
 
 def create_max(new_tower, cur_towers):
-    """Returns a tower with the maximum remaining coverage area of a trimmed tower. Returns None if tower
-    with unique coverage cannot be created.
+    """Returns a tower with the maximum possible coverage area after trimming, in accordance with the pre-existing composite
+    footprint (current towers). Returns None if a tower with a unique coverage area cannot be created.
 
     Arguments:
         new_tower {Tower} -- tower to be trimmed
-        cur_towers {list} -- list of towers currently placed within the coverage area
+        cur_towers {list} -- list of towers already placed; the pre-existing composite footprint
     """
     assert isinstance(new_tower, Tower), "Input is not a Tower object"
     assert isinstance(cur_towers, list), "Current Towers is not a list"
@@ -38,42 +39,42 @@ def create_max(new_tower, cur_towers):
         if cur is not None:
             assert isinstance(cur, Tower), "Element in list of current towers is not a Tower"
             temp = []
+            # Trims every tower in the list with one of the currently placed towers
             for sub in sub_towers:
                 temp = temp + trim(sub, cur)
-                # print temp
             if not temp:
                 return None
-            # print "____________________________________________"
-        sub_towers = temp
+        sub_towers = temp # Results of the previous trimming become the towers that need to be trimmed
 
     #return sub_towers
     return find_max(sub_towers)
 
 def trim(new_tower, placed):
-    """Returns a list of all possible trimmings of the new tower's coverage in accordance to the placed tower's coverage
+    """Returns a list of all possible subtowers whose coverage area does not intersect with the coverage area of
+    the already placed tower
 
     Arguments:
-        new_tower {Tower} -- tower coverage to be trimmed
-        placed {Tower} -- tower coverage that will perform the trimming
+        new_tower {Tower} -- tower whose coverage needs to be trimmed
+        placed {Tower} -- tower whose coverage is locked into the region of interest
     """
     assert isinstance(new_tower, Tower), "Tower to be trimmed is not a Tower"
     assert isinstance(placed, Tower), "Already placed tower is not a Tower"
 
-    # check if the towers intersect
-    if new_tower.intersects(placed): # true if intersects
+    # Check if the towers intersect
+    if new_tower.intersects(placed): # True if intersects
         temp = []
-        if new_tower < placed: # x-axis
+        if new_tower < placed: # Creates a new trimmed tower to the left of the placed tower, if possible
             temp.append(Tower(new_tower.start_coord, placed.start_coord[0]-new_tower.start_coord[0], new_tower.height))
-        if new_tower > placed: # x-axis
+        if new_tower > placed: # Creates a new trimmed tower to the right of the placed tower, if possible
             new_coord = (placed.right, new_tower.start_coord[1])
             temp.append(Tower(new_coord, new_tower.right-placed.right, new_tower.height))
-        if new_tower <= placed: # y-axis
+        if new_tower <= placed: # Creates a new trimmed tower below the placed tower, if possible
             temp.append(Tower(new_tower.start_coord, new_tower.width, placed.start_coord[1]-new_tower.start_coord[1]))
-        if new_tower >= placed:# y-axis
+        if new_tower >= placed: # Creates a new trimmed tower above the placed tower, if possible
             new_coord = (new_tower.start_coord[0], placed.top)
             temp.append(Tower(new_coord, new_tower.width, new_tower.top-placed.top))
         return temp
-    else:
+    else: # If the tower doesn't intersect the placed tower, there are no trimmed subtowers and returns the original tower
         return [new_tower]
 
 def find_max(towers):
