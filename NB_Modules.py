@@ -58,3 +58,21 @@ def get_rects(tower_list):
             rect_list.append(None)
         count += 1
     return rect_list
+
+def full_coverage(desired_width,desired_height):
+    placed = []
+    original = []
+    new_tower = create_rand_tower(desired_width, desired_height)
+    original.append(new_tower)
+    placed.append(new_tower)
+    count = 1
+    while True:
+        if coverage_area(placed) == desired_height*desired_width:
+            break
+        new_tower = create_rand_tower(desired_width, desired_height)
+        trim_tower = create_max(new_tower, placed)
+        if trim_tower is not None:
+            original.append(new_tower)
+            placed.append(trim_tower)
+            count += 1
+    return [placed, original, count]
