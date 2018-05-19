@@ -7,12 +7,12 @@ from Modules import create_rand_tower, create_max
 def coverage(desired_width, desired_height, num_towers, replace = True):
     """Returns a specificed number of towers within the region of interest defined by the desired width and
     the desired height. Ends early if the region of interest is completely covered.
-    
+
     Arguments:
         desired_width {int} -- Width of the desired coverage footprint
         desired_height {int} -- Height of the desired coverage footprint
         num_towers {int} -- Number of towers to be placed inside the region of interest
-    
+
     Keyword Arguments:
         replace {bool} -- Determines whether a tower will be replaced or not if the tower does not provide
                           unique coverage. Unused in actual project (default: {True})
@@ -52,7 +52,7 @@ def coverage(desired_width, desired_height, num_towers, replace = True):
 
 def string_gaps(desired_width, desired_height, tower_list):
     """Returns a statement about gaps in the total coverage...It's pretty useless
-    
+
     Arguments:
         desired_width {int} -- Width of the desired coverage footprint
         desired_height {int} -- Height of the desired coverage footprint
@@ -69,7 +69,7 @@ def string_gaps(desired_width, desired_height, tower_list):
 
 def coverage_area(tower_list):
     """Returns the amount of area covered by the towers in the list
-    
+
     Arguments:
         tower_list {list} -- list of towers whose area is added up
     """
@@ -83,7 +83,7 @@ def coverage_area(tower_list):
 
 def get_rects(tower_list):
     """Returns a list of rectangle actor representations of towers from the provided list of towers
-    
+
     Arguments:
         tower_list {list} -- list of towers to be turned into rectangles
     """
@@ -94,7 +94,7 @@ def get_rects(tower_list):
     edges = [(0,0,1,1), (0,0.5,0,1), (1,0,0,1), (0,0.5,0.5,1), (0.3,0,0.51,1), (1,0.65,0,1), (0.80,0.52,0.25,1), \
             (0.5,0,0,1), (0,0.98,0.6,1), (0.5,0.5,0.5,1), (1,0.87,0.68,1)]
     assert isinstance(tower_list, list), "List of towers is not a list"
-    
+
     count = 0
     rect_list = []
     for i in tower_list:
@@ -110,7 +110,7 @@ def get_rects(tower_list):
 def full_coverage(desired_width,desired_height):
     """Returns number of towers required to completely cover the region of interest defined by the desired width
     and the desired height. Also returns a list of the original random towers and a list of the trimmed towers.
-    
+
     Arguments:
         desired_width {int} -- Width of the desired coverage footprint
         desired_height {int} -- Height of the desired coverage footprint

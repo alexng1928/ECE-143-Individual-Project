@@ -62,19 +62,25 @@ def trim(new_tower, placed):
 
     # Check if the towers intersect
     if new_tower.intersects(placed): # True if intersects
+        # Look inside TowerClass.py to understand the four dunder functions used below
         temp = []
-        if new_tower < placed: # Creates a new trimmed tower to the left of the placed tower, if possible
+        if new_tower < placed:
+            # Creates a new trimmed tower to the left of the placed tower, if possible
             temp.append(Tower(new_tower.start_coord, placed.start_coord[0]-new_tower.start_coord[0], new_tower.height))
-        if new_tower > placed: # Creates a new trimmed tower to the right of the placed tower, if possible
+        if new_tower > placed:
+            # Creates a new trimmed tower to the right of the placed tower, if possible
             new_coord = (placed.right, new_tower.start_coord[1])
             temp.append(Tower(new_coord, new_tower.right-placed.right, new_tower.height))
-        if new_tower <= placed: # Creates a new trimmed tower below the placed tower, if possible
+        if new_tower <= placed:
+            # Creates a new trimmed tower below the placed tower, if possible
             temp.append(Tower(new_tower.start_coord, new_tower.width, placed.start_coord[1]-new_tower.start_coord[1]))
-        if new_tower >= placed: # Creates a new trimmed tower above the placed tower, if possible
+        if new_tower >= placed:
+            # Creates a new trimmed tower above the placed tower, if possible
             new_coord = (new_tower.start_coord[0], placed.top)
             temp.append(Tower(new_coord, new_tower.width, new_tower.top-placed.top))
         return temp
-    else: # If the tower doesn't intersect the placed tower, there are no trimmed subtowers and returns the original tower
+    else:
+        # If the tower doesn't intersect the placed tower, there are no trimmed subtowers and returns the original tower
         return [new_tower]
 
 def find_max(towers):

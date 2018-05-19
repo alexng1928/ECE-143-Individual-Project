@@ -31,25 +31,29 @@ class Tower:
         return self.start_coord == other.start_coord and self.height == other.height and self.width == other.width
 
     def __lt__(self,other):
-        """Returns true if there is coverage to the left of other's coverage
+        """Returns true if there is unique coverage to the left of other's coverage. Can only be true
+        if the left edge of current tower is more to the left than the other tower's left edge.
         """
         assert isinstance(other,Tower), "Tower not being compared to another Tower"
         return self.start_coord[0] < other.start_coord[0]
 
     def __gt__(self,other):
-        """Returns true if there is coverage to the right of other's coverage
+        """Returns true if there is unique coverage to the right of other's coverage. Can only be true
+        if the right edge of current tower is more to the right than the other tower's right edge.
         """
         assert isinstance(other,Tower), "Tower not being compared to another Tower"
         return self.right > other.right
 
     def __le__(self,other):
-        """Returns true if there is coverage below other's coverage
+        """Returns true if there is unique coverage below other's coverage. Can only be true
+        if the bottom edge of current tower is below the other tower's bottom edge.
         """
         assert isinstance(other,Tower), "Tower not being compared to another Tower"
         return self.start_coord[1] < other.start_coord[1]
 
     def __ge__(self,other):
-        """Returns true if there is coverage above other's coverage
+        """Returns true if there is unique coverage above other's coverage. Can only be true
+        if the top edge of current tower is above the other tower's top edge.
         """
         assert isinstance(other,Tower), "Tower not being compared to another Tower"
         return self.top > other.top
@@ -77,6 +81,8 @@ class Tower:
         """Returns true if the tower's coverage intersects with another's coverage, otherwise returns false
         """
         assert isinstance(other,Tower), "Tower not being compared to another Tower"
+        # If the bottom edge of the current tower is above the top edge of another tower, they cannot possibly intersect.
+        # This holds true for every other side as well, which is what is being computed below.
         if ((self.start_coord[0]+self.width) <= other.start_coord[0]) or \
             (self.start_coord[0] >= (other.start_coord[0]+other.width)) or \
             (self.start_coord[1] >= (other.start_coord[1]+other.height)) or \
